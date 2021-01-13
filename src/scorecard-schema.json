@@ -66,13 +66,15 @@
                     ]
                   }
                 }
-              }
+              },
+              "additionalProperties": false
             },
             "training_data_health": {
               "$id": "#/properties/scorecard/properties/auto/properties/training_data_health",
               "type": "object",
               "title": "Manual training data health scorecard",
-              "properties": {}
+              "properties": {},
+              "additionalProperties": false
             },
             "success_kpis": {
               "$id": "#/properties/scorecard/properties/manual/properties/success_kpis",
@@ -153,7 +155,8 @@
               "$id": "#/properties/scorecard/properties/auto/properties/CD",
               "type": "object",
               "title": "Automatic CD scorecard",
-              "properties": {}
+              "properties": {},
+              "additionalProperties": false
             },
             "training_data_health": {
               "$id": "#/properties/scorecard/properties/auto/properties/training_data_health",
