@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "https://rasa.com/scorecard/v1",
+  "type": "object",
+  "title": "Rasa Assistant Scorecard",
+  "required": ["version", "scorecard"],
+  "properties": {
+    "version": {
+      "$id": "#/properties/version",
+      "type": "integer",
+      "enum": ["1"],
+      "title": "Scorecard version"
+    },
+    "scorecard": {
+      "$id": "#/properties/scorecard",
+      "type": "object",
+      "title": "Scorecard",
+      "required": ["manual", "auto"],
+      "properties": {
+        "manual": {
+          "$id": "#/properties/scorecard/properties/manual",
+          "type": "object",
+          "title": "Manual metrics",
+          "required": ["CI", "CD", "success_kpis"],
+          "properties": {
+            "CI": {
+              "$id": "#/properties/scorecard/properties/manual/properties/CI",
+              "type": "object",
+              "title": "Manual CI scorecard",
+              "required": ["filename"],
+              "properties": {
+                "filename": {
+                  "$id": "#/properties/scorecard/properties/manual/properties/CI/properties/filename",
+                  "type": "string",
+                  "title": "Filename for CI yaml"
+                }
+              },
+              "additionalProperties": false
+            },
+            "CD": {
+              "$id": "#/properties/scorecard/properties/manual/properties/CD",
+              "type": "object",
+              "title": "Manual CD scorecard",
+              "required": [
+                "infrastructure_as_code",
+                "messaging_channels_integrated"
+              ],
+              "properties": {
+                "infrastructure_as_code": {
+                  "$id": "#/properties/scorecard/properties/manual/properties/CD/properties/infrastructure_as_code",
+                  "type": "boolean",
+                  "title": "Infrastructure as code"
+                },
+                "messaging_channels_integrated": {
+                  "$id": "#/properties/scorecard/properties/manual/properties/CD/properties/messaging_channels_integrated",
+                  "type": "array",
+                  "title": "Messaging channels integrated",
+                  "items": {
+                    "$id": "#/properties/scorecard/properties/manual/properties/CD/properties/messaging_channels_integrated/items",
+                    "anyOf": [
+                      {
+                        "$id": "#/properties/scorecard/properties/manual/properties/CD/properties/messaging_channels_integrated/items/anyOf/0",
+                        "type": "string",
+                        "title": "Messaging channel"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "training_data_health": {
+              "$id": "#/properties/scorecard/properties/auto/properties/training_data_health",
+              "type": "object",
+              "title": "Manual training data health scorecard",
+              "properties": {}
+            },
+            "success_kpis": {
+              "$id": "#/properties/scorecard/properties/manual/properties/success_kpis",
+              "type": "object",
+              "title": "Manual success KPIs scorecard",
+              "required": ["automated_conversation_tags"],
+              "properties": {
+                "automated_conversation_tags": {
+                  "$id": "#/properties/scorecard/properties/manual/properties/success_kpis/properties/automated_conversation_tags",
+                  "type": "null",
+                  "title": "Automated conversation tags"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "auto": {
+          "$id": "#/properties/scorecard/properties/auto",
+          "type": "object",
+          "title": "Automatic scorecard",
+          "required": ["CI", "training_data_health", "success_kpis"],
+          "properties": {
+            "CI": {
+              "$id": "#/properties/scorecard/properties/auto/properties/CI",
+              "type": "object",
+              "title": "Automatic CI scorecard",
+              "required": [
+                "code_and_training_data_in_git",
+                "rasa_test_coverage",
+                "ci_runs_data_validation",
+                "ci_runs_rasa_test",
+                "ci_trains_model",
+                "ci_builds_action_server",
+                "ci_runs_vulnerability_scans"
+              ],
+              "properties": {
+                "code_and_training_data_in_git": {
+                  "$id": "#/properties/scorecard/properties/auto/properties/CI/properties/code_and_training_data_in_git",
+                  "type": "boolean",
+                  "title": "Code and training data is in Git"
+                },
+                "rasa_test_coverage": {
+                  "$id": "#/properties/scorecard/properties/auto/properties/CI/properties/rasa_test_coverage",
+                  "type": "integer",
+                  "title": "Rasa test coverage"
+                },
+                "ci_runs_data_validation": {
+                  "$id": "#/properties/scorecard/properties/auto/properties/CI/properties/ci_runs_data_validation",
+                  "type": "boolean",
+                  "title": "CI runs data validation"
+                },
+                "ci_runs_rasa_test": {
+                  "$id": "#/properties/scorecard/properties/auto/properties/CI/properties/ci_runs_rasa_test",
+                  "type": "boolean",
+                  "title": "CI runs `rasa test`"
+                },
+                "ci_trains_model": {
+                  "$id": "#/properties/scorecard/properties/auto/properties/CI/properties/ci_trains_model",
+                  "type": "boolean",
+                  "title": "CI trains a model"
+                },
+                "ci_builds_action_server": {
+                  "$id": "#/properties/scorecard/properties/auto/properties/CI/properties/ci_builds_action_server",
+                  "type": "boolean",
+                  "title": "CI builds an action server"
+                },
+                "ci_runs_vulnerability_scans": {
+                  "$id": "#/properties/scorecard/properties/auto/properties/CI/properties/ci_runs_vulnerability_scans",
+                  "type": "boolean",
+                  "title": "CI runs vulnerability scans"
+                }
+              },
+              "additionalProperties": false
+            },
+            "CD": {
+              "$id": "#/properties/scorecard/properties/auto/properties/CD",
+              "type": "object",
+              "title": "Automatic CD scorecard",
+              "properties": {}
+            },
+            "training_data_health": {
+              "$id": "#/properties/scorecard/properties/auto/properties/training_data_health",
+              "type": "object",
+              "title": "Automatic training data health scorecard",
+              "required": [
+                "num_real_conversations",
+                "num_annotated_messages",
+                "num_warnings_from_nlu_insights"
+              ],
+              "properties": {
+                "num_real_conversations": {
+                  "$id": "#/properties/scorecard/properties/auto/properties/training_data_health/properties/num_real_conversations",
+                  "type": "integer",
+                  "title": "Number of real conversations"
+                },
+                "num_annotated_messages": {
+                  "$id": "#/properties/scorecard/properties/auto/properties/training_data_health/properties/num_annotated_messages",
+                  "type": "integer",
+                  "title": "Number of annotated messages"
+                },
+                "num_warnings_from_nlu_insights": {
+                  "$id": "#/properties/scorecard/properties/auto/properties/training_data_health/properties/num_warnings_from_nlu_insights",
+                  "type": "integer",
+                  "title": "Number of warnings from NLU insights"
+                }
+              },
+              "additionalProperties": false
+            },
+            "success_kpis": {
+              "$id": "#/properties/scorecard/properties/auto/properties/success_kpis",
+              "type": "object",
+              "title": "Automatic success KPIs scorecard",
+              "required": [
+                "num_reviewed_conversations",
+                "num_tagged_conversations"
+              ],
+              "properties": {
+                "num_reviewed_conversations": {
+                  "$id": "#/properties/scorecard/properties/auto/properties/success_kpis/properties/num_reviewed_conversations",
+                  "type": "integer",
+                  "title": "Number of reviewed conversations"
+                },
+                "num_tagged_conversations": {
+                  "$id": "#/properties/scorecard/properties/auto/properties/success_kpis/properties/num_tagged_conversations",
+                  "type": "integer",
+                  "title": "Number of tagged conversations"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
